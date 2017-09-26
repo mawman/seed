@@ -1,0 +1,20 @@
+{
+    "name": "mawman/seed",
+    "description": "Project seed (a.k.a. framework)",
+    "type": "library",
+    "autoload": {
+        "psr-4": {
+            "Mawman\\Seed\\": "src/Mawman/Seed/"
+        }
+    },
+    "require": {
+        "php": ">=7.0.0",
+        "php-di/php-di": "^5.4",
+        "symfony/http-foundation": "^3.3",
+        "symfony/routing": "^3.3",
+        "symfony/config": "^3.3",
+        "doctrine/annotations": "^1.5",
+        "twig/twig": "^2.4",
+        "symfony/console": "^3.3"
+    }
+}
