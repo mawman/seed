@@ -12,8 +12,8 @@ abstract class MiddlewareAnnotation
      */
     protected $values;
 
-    public function __construct(array $values) {
-        foreach ($this->values as $name => $value) {
+    public function __construct(array $values = null) {
+        foreach ((array) $this->values as $name => $value) {
             if (property_exists($this, $name)) {
                 $this->{$name} = $value;
             }
