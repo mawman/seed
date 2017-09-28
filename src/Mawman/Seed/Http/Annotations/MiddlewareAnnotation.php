@@ -10,15 +10,15 @@ abstract class MiddlewareAnnotation
     /**
      * @var array
      */
-    protected $values;
+    protected $parameters;
 
-    public function __construct(array $values = null) {
-        foreach ((array) $this->values as $name => $value) {
+    public function __construct(array $parameters = null) {
+        $this->parameters = $parameters;
+        foreach ((array) $parameters as $name => $value) {
             if (property_exists($this, $name)) {
                 $this->{$name} = $value;
             }
         }
-        $this->values = $values;
     }
 
     /**
@@ -29,6 +29,8 @@ abstract class MiddlewareAnnotation
     /**
      * @return array
      */
-    abstract public function getParameters();
+    public function getParameters() {
+        return $this->parameters;
+    }
 
 }
