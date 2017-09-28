@@ -44,6 +44,28 @@ class RouteDiscovery extends AnnotationClassLoader
         $route->addDefaults([
             "_controller" => [$class->getName(), $method->getName()],
         ]);
+        foreach (array_merge(
+                     array_values($this->loadClassAnnotations($class)),
+                     array_values($this->reader->getMethodAnnotations($method))
+                 ) as $annotation) {
+            if ($annotation instanceof MiddlewareAnnotation) {
+                $defaults = $route->getDefaults();
+                $route->addDefaults(['_middleware' => array_merge(
+                    (isset($defaults['_middleware']) ?: []),
+                    [array_merge(
+                        ['_handler' => $annotation->getHandler()],
+                        (array)$annotation->getParameters()
+                    )]
+                )]);
+            }
+        }
+    }
+
+    private function loadClassAnnotations(\ReflectionClass $class, $annotations = []) {
+        if ($class->getParentClass()) {
+            $annotations = $this->loadClassAnnotations($class->getParentClass());
+        }
+        return array_merge($annotations, $this->reader->getClassAnnotations($class));
     }
 
 }

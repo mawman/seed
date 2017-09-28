@@ -31,6 +31,10 @@ class FrontController
         try {
             $routeInfo = $this->matchRoute();
 
+            if (isset($routeInfo['_middleware'])) {
+                $this->processMiddleware($routeInfo['_middleware']);
+            }
+
             $this->dispatchController($routeInfo);
 
         } catch (ResourceNotFoundException $e) {
@@ -47,6 +51,17 @@ class FrontController
                 "message" => "Internal Server Error",
                 "exception" => $e,
             ]);
+        }
+    }
+
+    /**
+     * @param $middlewareStack
+     * @throws \Exception
+     */
+    protected function processMiddleware($middlewareStack) {
+        foreach ($middlewareStack as $middleware) {
+            $handler = $this->getHandler($middleware['_handler']);
+            $this->container->call($handler, $middleware);
         }
     }
 
