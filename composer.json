@@ -2,6 +2,7 @@
     "name": "mawman/seed",
     "description": "Project seed (a.k.a. framework)",
     "type": "library",
+    "license": "MIT",
     "autoload": {
         "psr-4": {
             "Mawman\\Seed\\": "src/Mawman/Seed/"
